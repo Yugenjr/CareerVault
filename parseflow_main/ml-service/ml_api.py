@@ -66,6 +66,72 @@ def predict():
         traceback.print_exc()
         return jsonify({'error': str(e)}), 500
 
+@app.route('/memory/sync', methods=['POST'])
+def memory_sync_endpoint():
+    try:
+        data = request.get_json(force=True)
+        user_id = data.get('user_id')
+        user_name = data.get('user_name', 'Unknown')
+        doc_data = data.get('doc_data', {})
+        
+        if not user_id or not doc_data:
+            return jsonify({'error': 'user_id and doc_data required'}), 400
+            
+        import asyncio
+        from memory.memory_sync import memory_sync
+        
+        # Run async function in sync context
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        success = loop.run_until_complete(
+            memory_sync.process_document_memory(user_id, user_name, doc_data)
+        )
+        
+        return jsonify({'success': success})
+    except Exception as e:
+        traceback.print_exc()
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/memory/ask', methods=['POST'])
+def memory_ask_endpoint():
+    try:
+        data = request.get_json(force=True)
+        question = data.get('question')
+        
+        if not question:
+            return jsonify({'error': 'question required'}), 400
+            
+        import asyncio
+        from memory.memory_queries import memory_queries
+        
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        context = loop.run_until_complete(
+            memory_queries.get_assistant_context(question)
+        )
+        
+        return jsonify({'context': context})
+    except Exception as e:
+        traceback.print_exc()
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/memory/insights', methods=['GET'])
+def memory_insights_endpoint():
+    try:
+        import asyncio
+        from memory.memory_queries import memory_queries
+        
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        insights = loop.run_until_complete(
+            memory_queries.get_insights()
+        )
+        
+        return jsonify(insights)
+    except Exception as e:
+        traceback.print_exc()
+        return jsonify({'error': str(e)}), 500
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 8001)))

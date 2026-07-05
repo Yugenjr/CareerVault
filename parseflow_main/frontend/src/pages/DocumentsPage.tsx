@@ -9,6 +9,7 @@ import {
   Building2,
   FolderOpen,
   FileText,
+  Network,
   type LucideIcon,
 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
@@ -338,6 +339,11 @@ export default function DocumentsPage() {
                         <span className="font-mono text-[10px] px-2 py-0.5 rounded-sm bg-secondary text-primary uppercase">
                           {getCategory(doc)}
                         </span>
+                        {doc.memory_status === 'COMPLETED' && (
+                          <span className="font-mono text-[10px] px-2 py-0.5 rounded-sm bg-success/10 text-success uppercase flex items-center gap-1">
+                            <Network className="h-3 w-3" /> IN MEMORY
+                          </span>
+                        )}
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
                             <button

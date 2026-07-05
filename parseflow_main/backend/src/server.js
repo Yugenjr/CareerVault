@@ -25,6 +25,7 @@ const { sendEmail } = require('./services/emailService');
 const { createGoogleAuthUrl, getOAuthClient, uploadToDrive } = require('./services/driveService');
 const notificationRoutes = require('./routes/notifications');
 const fileRoutes = require('./routes/files');
+const memoryRoutes = require('./routes/memoryRoutes');
 const { startWeeklySummaryJob } = require('./cron/weeklySummary');
 
 const app = express();
@@ -218,6 +219,46 @@ async function callMlService(filePath) {
     }
   }
   throw lastError || new Error('All ML endpoint attempts failed');
+}
+
+async function triggerMemorySync(userId, userName, documentObj) {
+  // Try calling the ML Service memory sync endpoint
+  let memoryBaseUrl = ML_SERVICE_BASE_URL.replace('/predict', '');
+  const url = `${memoryBaseUrl}/memory/sync`;
+  
+  try {
+    const Activity = require('./models/Activity');
+    console.log(`Triggering memory sync for document ${documentObj._id} to ${url}`);
+    
+    // Update document status to processing
+    documentObj.memory_status = 'PROCESSING';
+    await documentObj.save();
+    
+    // Background the actual HTTP call so it doesn't block
+    axios.post(url, {
+      user_id: userId,
+      user_name: userName,
+      doc_data: documentObj.toObject()
+    }, { timeout: 10000 }).then(async (resp) => {
+      if (resp.data && resp.data.success) {
+        documentObj.memory_status = 'COMPLETED';
+        documentObj.memory_extracted_at = new Date();
+        await documentObj.save();
+        await Activity.create({ userId, action: 'Memory Created', documentId: documentObj._id });
+        console.log(`Memory sync completed for document ${documentObj._id}`);
+      } else {
+        throw new Error('Memory sync returned failure');
+      }
+    }).catch(async (err) => {
+      console.error(`Memory sync failed for document ${documentObj._id}:`, err?.message || err);
+      documentObj.memory_status = 'FAILED';
+      documentObj.memory_error = err?.message || 'Unknown error';
+      await documentObj.save();
+    });
+    
+  } catch (err) {
+    console.error('Failed to initiate memory sync:', err);
+  }
 }
 
 function normalizeConfidencePercent(value) {
@@ -982,10 +1023,20 @@ async function persistAndNotify({ req, result, filePath }) {
   console.log('Final doc storage.fileUrl after reload:', finalDoc?.storage?.fileUrl);
   console.log('=== persistAndNotify END ===\n');
   
+  // TRIGGER MEMORY SYNC HERE
+  try {
+    const user = await User.findOne({ clerkId: req.userId }).select('name').lean();
+    const userName = user && user.name ? user.name : 'Unknown User';
+    await triggerMemorySync(req.userId, userName, finalDoc || savedDoc);
+  } catch (err) {
+    console.error('Failed to trigger memory sync:', err);
+  }
+  
   return finalDoc || savedDoc;
 }
 
 app.use('/notifications', notificationRoutes);
+app.use('/memory', memoryRoutes);
 app.use('/upload', authMiddleware);
 
 app.post('/api/auth/sync-user', authMiddleware, async (req, res) => {

@@ -39,6 +39,9 @@ const documentSchema = new mongoose.Schema({
     confidence: { type: Number, default: 0 },
     method: { type: String, default: 'Unknown' }
   },
+  memory_status: { type: String, enum: ['PENDING', 'PROCESSING', 'COMPLETED', 'FAILED'], default: 'PENDING' },
+  memory_extracted_at: { type: Date, default: null },
+  memory_error: { type: String, default: '' },
   createdAt: { type: Date, default: Date.now }
 });
 

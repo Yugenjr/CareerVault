@@ -19,6 +19,7 @@ import FeedbackPage from "./pages/FeedbackPage";
 import ExportPage from "./pages/ExportPage";
 import TransparencyPage from "./pages/TransparencyPage";
 import DocBotPage from "./pages/DocBotPage";
+import InsightsPage from "./pages/InsightsPage";
 import NotFound from "./pages/NotFound";
 import { ChatPanel } from "./components/ChatPanel";
 
@@ -129,6 +130,7 @@ const App = () => (
             <Route path="/feedback" element={<ProtectedRoute><FeedbackPage /></ProtectedRoute>} />
             <Route path="/docbot" element={<ProtectedRoute><DocBotPage /></ProtectedRoute>} />
             <Route path="/export" element={<ProtectedRoute><ExportPage /></ProtectedRoute>} />
+            <Route path="/insights" element={<ProtectedRoute><InsightsPage /></ProtectedRoute>} />
             <Route path="/transparency" element={<ProtectedRoute><TransparencyPage /></ProtectedRoute>} />
             <Route path="*" element={<NotFound />} />
           </Routes>

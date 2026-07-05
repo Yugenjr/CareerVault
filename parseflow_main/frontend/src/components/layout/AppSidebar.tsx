@@ -1,4 +1,4 @@
-import { Home, FileText, Upload, History, Settings, Download, MessageSquare, Eye, LogOut } from "lucide-react";
+import { Home, FileText, Upload, History, Settings, Download, MessageSquare, Eye, LogOut, Network } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -20,7 +20,8 @@ const navItems = [
   { title: "Activity", url: "/history", icon: History },
   { title: "Export", url: "/export", icon: Download },
   { title: "Career Assistant", url: "/docbot", icon: FileText },
-  { title: "Insights", url: "/transparency", icon: Eye },
+  { title: "Memory Graph", url: "/insights", icon: Network },
+  { title: "Transparency", url: "/transparency", icon: Eye },
   { title: "Feedback", url: "/feedback", icon: MessageSquare },
   { title: "Settings", url: "/settings", icon: Settings },
 ];

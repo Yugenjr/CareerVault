@@ -1,4 +1,4 @@
-import { FileText, BarChart3, HardDrive, Upload, Clock, FolderOpen, ChevronRight, Bot, Zap, Search } from "lucide-react";
+import { FileText, BarChart3, HardDrive, Upload, Clock, FolderOpen, ChevronRight, Bot, Zap, Search, Database, Network } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useEffect, useState } from "react";
@@ -66,9 +66,11 @@ export default function HomePage() {
     )
     : 0;
 
+  const memDocs = docs.filter(d => d.memory_status === 'COMPLETED').length;
+
   const stats = [
     { icon: FileText, label: "ASSETS", value: String(docs.length) },
-    { icon: BarChart3, label: "THIS WEEK", value: String(thisWeek) },
+    { icon: Database, label: "MEMORIES", value: String(memDocs) },
     { icon: HardDrive, label: "STORAGE", value: `${(docs.length * 0.18).toFixed(1)}MB` },
     { icon: Bot, label: "PORTFOLIO SCORE", value: `${aiAccuracy}%` },
     { icon: Zap, label: "AVERAGE", value: `${avgTimeSec.toFixed(1)}s` },
@@ -77,7 +79,7 @@ export default function HomePage() {
 
   const quickActions = [
     { icon: Upload, label: "UPLOAD", route: "/upload" },
-    { icon: Clock, label: "ACTIVITY", route: "/history" },
+    { icon: Network, label: "INSIGHTS", route: "/insights" },
     { icon: FolderOpen, label: "ORGANIZE", route: "/documents" },
   ];
 

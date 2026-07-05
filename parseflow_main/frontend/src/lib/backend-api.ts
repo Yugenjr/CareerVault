@@ -31,6 +31,9 @@ export interface BackendDocument {
     confidence?: number;
     method?: string;
   };
+  memory_status?: string;
+  memory_extracted_at?: string;
+  memory_error?: string;
   createdAt: string;
 }
 
@@ -96,6 +99,9 @@ function normalizeDocument(doc: Partial<BackendDocument>): BackendDocument {
     llm_analysis: doc.llm_analysis,
     storage: doc.storage ? { ...doc.storage, category: normalizedStorageCategory } : doc.storage,
     classification: doc.classification ? { ...doc.classification, category: normalizeCareerCategory(doc.classification.category) } : doc.classification,
+    memory_status: doc.memory_status,
+    memory_extracted_at: doc.memory_extracted_at,
+    memory_error: doc.memory_error,
     createdAt: String(doc.createdAt || new Date().toISOString()),
   };
 }
@@ -231,4 +237,11 @@ export async function fetchGoogleDriveAuthUrl(token: string): Promise<string> {
     throw new Error('Failed to get Google OAuth URL');
   }
   return data.url;
+}
+
+export async function fetchMemoryInsights(token: string): Promise<any> {
+  const resp = await axios.get(`${backendBaseUrl}/memory/insights`, {
+    headers: buildAuthHeaders(token)
+  });
+  return resp.data;
 }

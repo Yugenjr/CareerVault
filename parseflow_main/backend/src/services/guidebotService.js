@@ -67,11 +67,35 @@ async function askGuideBot(history) {
     throw new Error('GUIDEBOT_GROQ_API_KEY is not configured');
   }
 
+  // Determine user intent from the latest message
+  const lastMessage = history.find(m => m.role === 'user' || !m.role) || history[history.length - 1];
+  const question = lastMessage ? lastMessage.text : '';
+
+  let memoryContext = '';
+  try {
+    // Attempt to fetch memory context from ML service
+    const ML_SERVICE_BASE_URL = (process.env.ML_API_URL || 'https://parseflow.onrender.com').replace(/\/+$/, '').replace('/predict', '');
+    const url = `${ML_SERVICE_BASE_URL}/memory/ask`;
+    const resp = await axios.post(url, { question }, { timeout: 10000 });
+    if (resp.data && resp.data.context) {
+      memoryContext = resp.data.context;
+    }
+  } catch (err) {
+    console.error('Failed to fetch memory context for GuideBot:', err?.message || err);
+  }
+
+  const groqMessages = toGroqMessages(history);
+  
+  if (memoryContext) {
+    // Inject memory context into the system prompt
+    groqMessages[0].content += `\n\nCareer Memory Context from Cognee Knowledge Graph:\n${memoryContext}\n\nUse this context to answer the user's questions about their career, skills, and projects.`;
+  }
+
   const payload = {
     model: GUIDE_GROQ_MODEL,
     temperature: 0.3,
     max_tokens: 500,
-    messages: toGroqMessages(history)
+    messages: groqMessages
   };
 
   const response = await axios.post(GUIDE_GROQ_API_URL, payload, {

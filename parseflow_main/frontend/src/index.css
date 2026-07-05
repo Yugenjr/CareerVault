@@ -45,8 +45,8 @@
     --sidebar-border: 0 0% 20%;
     --sidebar-ring: 0 0% 100%;
 
-    --gradient-primary: linear-gradient(90deg, hsl(0 0% 100%), hsl(0 0% 90%));
-    --gradient-primary-hover: linear-gradient(90deg, hsl(0 0% 94%), hsl(0 0% 80%));
+    --gradient-primary: linear-gradient(90deg, hsl(0, 0%, 100%), hsl(0 0% 90%));
+    --gradient-primary-hover: linear-gradient(90deg, hsl(0 0% 94%), hsl(0, 0%, 91%));
     --success: 120 100% 25%;
     --warning: 0 0% 60%;
 
