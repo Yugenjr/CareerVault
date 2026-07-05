@@ -1,6 +1,6 @@
 # Contributing
 
-Thanks for helping improve ParseFlow.
+Thanks for helping improve CareerVault.
 
 ## Before You Start
 

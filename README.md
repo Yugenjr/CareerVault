@@ -1,11 +1,14 @@
-# ParseFlow
+# CareerVault
 
-ParseFlow is an AI-powered document intelligence platform that classifies, stores, and organizes uploaded files (PDF, JPG, JPEG, PNG) into structured folders with searchable history and feedback-driven improvements.
+CareerVault is an AI-powered **Career Memory System** that classifies, stores, and organizes uploaded career assets (Resumes, Certificates, Projects, etc.) into structured folders and extracts factual data into a searchable Knowledge Graph for intelligent reasoning.
 
 ## What Is Included
 
+- **Knowledge Graph Integration**: Extracts career memories (skills, experience, projects) via Cognee to build semantic graphs.
+- **Intelligent Career Assistant**: GuideBot leverages semantic graph context to provide deeply personalized answers about your portfolio.
+- **Graph Visualization**: Explore your career memory topology (nodes, edges, and connections) directly from the UI.
 - Hybrid classification path with confidence-based fallback
-- Category-aware storage (`Identity`, `Financial`, `Legal`, `Compliance`, `Tax`, `Business`, `Other`)
+- Category-aware storage (`Resume`, `Certificate`, `Internship`, `Professional`, `Academic`, `Achievement`, `Project`, `Other`)
 - Auto folder creation by category and document type
 - History and document explorer with category filtering and search
 - Feedback flow for top history item (`Correct` / `Wrong`)
@@ -58,7 +61,7 @@ flowchart TD
 
 ```
 docs/          # Product docs, usage, architecture, contribution, conduct
-parseflow_main/
+careervault_main/
   backend/     # Express API, classification orchestration, storage sync, notifications
   frontend/    # React/Vite UI
   ml-service/  # Python services for model/OCR-related tasks
@@ -72,20 +75,20 @@ parseflow_main/
 From repository root:
 
 ```powershell
-npm --prefix "parseflow_main/backend" install
-npm --prefix "parseflow_main/frontend" install
+npm --prefix "careervault_main/backend" install
+npm --prefix "careervault_main/frontend" install
 ```
 
 ### 2. Configure environment
 
 Backend env:
 
-- Copy `parseflow_main/backend/.env.example` to `parseflow_main/backend/.env`
+- Copy `careervault_main/backend/.env.example` to `careervault_main/backend/.env`
 - Set required values (`CLERK_SECRET_KEY`, `MONGO_URI`, `GROQ_API_KEY`, `DATA_ENCRYPTION_KEY`, etc.)
 
 Frontend env:
 
-- Set `VITE_BACKEND_URL` in `parseflow_main/frontend/.env`
+- Set `VITE_BACKEND_URL` in `careervault_main/frontend/.env`
 - Local default is usually `http://localhost:5000`
 
 ### 3. Start services
@@ -93,14 +96,14 @@ Frontend env:
 Backend:
 
 ```powershell
-cd "parseflow_main/backend"
+cd "careervault_main/backend"
 npm start
 ```
 
 Frontend:
 
 ```powershell
-cd "parseflow_main/frontend"
+cd "careervault_main/frontend"
 npm run dev
 ```
 
@@ -116,8 +119,8 @@ If port `5000` is already in use, stop the existing process first, then restart 
 
 ## Category and Folder Behavior
 
-- Backend now preserves explicit `Compliance` category from model output.
-- Compliance docs are stored under `Compliance/...`, not forced to `Other`.
+- Backend now maps document output into targeted career paths (e.g. `Resume`, `Certificate`, `Internship`).
+- Documents are organized cleanly within user-specific folders, no longer arbitrarily falling back to `Other`.
 - UI category rendering prefers:
   1. `storage.category`
   2. `classification.category`
@@ -131,7 +134,7 @@ If port `5000` is already in use, stop the existing process first, then restart 
 ```powershell
 $conn = Get-NetTCPConnection -LocalPort 5000 -State Listen -ErrorAction SilentlyContinue
 if ($conn) { Stop-Process -Id $conn.OwningProcess -Force }
-cd "parseflow_main/backend"
+cd "careervault_main/backend"
 npm start
 ```
 
@@ -146,4 +149,4 @@ npm start
 
 For full onboarding and operations details, see [docs/README.md](docs/README.md).
 
-The docs folder includes product rationale, how to use ParseFlow, system architecture, flow diagrams, and community guidelines.
+The docs folder includes product rationale, how to use CareerVault, system architecture, flow diagrams, and community guidelines.

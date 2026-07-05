@@ -1,6 +1,6 @@
 # Product Overview
 
-ParseFlow is an AI-powered document intelligence platform that classifies uploaded files, stores them in structured folders, and keeps the results searchable for later review.
+CareerVault is an AI-powered document intelligence platform that classifies uploaded files, stores them in structured folders, and keeps the results searchable for later review.
 
 ## Why It Exists
 
@@ -10,7 +10,7 @@ Document handling usually breaks down in three places:
 - Users do not know which document type was detected or why.
 - Teams have no clear history of past uploads or corrections.
 
-ParseFlow addresses those issues by combining automated classification, category-aware storage, and a feedback loop that improves the experience over time.
+CareerVault addresses those issues by combining automated classification, category-aware storage, and a feedback loop that improves the experience over time.
 
 ## Core Outcomes
 

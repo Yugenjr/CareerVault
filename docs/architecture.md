@@ -1,6 +1,6 @@
 # Architecture and Flows
 
-This page describes how ParseFlow moves a document from upload to storage and review.
+This page describes how CareerVault moves a document from upload to storage and review.
 
 ## High-Level Architecture
 

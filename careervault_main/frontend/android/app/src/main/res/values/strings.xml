@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">CareerVault</string>
+    <string name="title_activity_main">CareerVault</string>
+    <string name="package_name">com.careervault.app</string>
+    <string name="custom_url_scheme">com.careervault.app</string>
+</resources>

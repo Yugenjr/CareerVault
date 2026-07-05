@@ -1,6 +1,6 @@
-# ParseFlow Docs
+# CareerVault Docs
 
-This folder is the documentation hub for ParseFlow.
+This folder is the documentation hub for CareerVault.
 
 ## Start Here
 
@@ -12,7 +12,7 @@ This folder is the documentation hub for ParseFlow.
 
 ## What You Will Find
 
-- Why ParseFlow exists and the problems it solves
+- Why CareerVault exists and the problems it solves
 - How to set up and use the application
 - How uploads move through classification, storage, and history
 - Mermaid diagrams that explain the main system flows
@@ -20,7 +20,7 @@ This folder is the documentation hub for ParseFlow.
 
 ## Repository Areas
 
-- `parseflow_main/backend`: API, classification orchestration, storage, and sync
-- `parseflow_main/frontend`: user interface
-- `parseflow_main/ml-service`: OCR and model-backed helper services
+- `careervault_main/backend`: API, classification orchestration, storage, and sync
+- `careervault_main/frontend`: user interface
+- `careervault_main/ml-service`: OCR and model-backed helper services
 - `docs`: product and engineering documentation

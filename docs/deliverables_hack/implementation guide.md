@@ -1,10 +1,10 @@
-# ParseFlow Implementation Guide
+# CareerVault Implementation Guide
 
-This guide explains how a new user can set up, run, and understand ParseFlow end-to-end.
+This guide explains how a new user can set up, run, and understand CareerVault end-to-end.
 
-## 1. What ParseFlow Does
+## 1. What CareerVault Does
 
-ParseFlow classifies uploaded documents (PDF/JPG/JPEG/PNG) and stores them in folder structure by category and document type.
+CareerVault classifies uploaded documents (PDF/JPG/JPEG/PNG) and stores them in folder structure by category and document type.
 
 Core processing path:
 
@@ -20,10 +20,10 @@ Core processing path:
 
 Top-level workspace:
 
-- `parseflow_main/backend` - Node.js + Express API, classification orchestration, storage sync
-- `parseflow_main/frontend` - React + Vite UI
-- `parseflow_main/ml-service` - Python ML/OCR-related services
-- `parseflow_main/storage` - persisted files organized by user/category/doc-type
+- `careervault_main/backend` - Node.js + Express API, classification orchestration, storage sync
+- `careervault_main/frontend` - React + Vite UI
+- `careervault_main/ml-service` - Python ML/OCR-related services
+- `careervault_main/storage` - persisted files organized by user/category/doc-type
 
 ## 3. Prerequisites
 
@@ -47,7 +47,7 @@ Optional but commonly used in this project:
 
 Create backend env file from example:
 
-1. Go to `parseflow_main/backend`
+1. Go to `careervault_main/backend`
 2. Copy `.env.example` to `.env`
 3. Fill values for at least:
 
@@ -65,7 +65,7 @@ Note:
 
 ### 4.2 Frontend env file
 
-In `parseflow_main/frontend/.env`, ensure:
+In `careervault_main/frontend/.env`, ensure:
 
 - `VITE_BACKEND_URL=http://localhost:5000`
 
@@ -78,7 +78,7 @@ If backend is tunneled via ngrok, set it to the ngrok URL.
 From repo root:
 
 ```powershell
-npm --prefix "parseflow_main/backend" install
+npm --prefix "careervault_main/backend" install
 ```
 
 ### 5.2 Frontend
@@ -86,19 +86,19 @@ npm --prefix "parseflow_main/backend" install
 From repo root:
 
 ```powershell
-npm --prefix "parseflow_main/frontend" install
+npm --prefix "careervault_main/frontend" install
 ```
 
 ### 5.3 ML Service
 
-Use your Python environment inside `parseflow_main/ml-service` and install required packages for that service.
+Use your Python environment inside `careervault_main/ml-service` and install required packages for that service.
 
 ## 6. Run Services (Recommended Order)
 
 ### 6.1 Start backend
 
 ```powershell
-cd "parseflow_main/backend"
+cd "careervault_main/backend"
 npm start
 ```
 
@@ -112,7 +112,7 @@ Expected log includes:
 In a separate terminal:
 
 ```powershell
-cd "parseflow_main/frontend"
+cd "careervault_main/frontend"
 npm run dev
 ```
 
@@ -120,7 +120,7 @@ Vite usually serves on `http://localhost:5173`.
 
 ### 6.3 Start ml-service (if required by your flow)
 
-Start your Python service from `parseflow_main/ml-service` using your existing command/env.
+Start your Python service from `careervault_main/ml-service` using your existing command/env.
 
 ## 7. How Classification and Storage Work
 
@@ -150,7 +150,7 @@ Security was added in modular way without replacing pipeline architecture.
 
 ### 8.1 Access control middleware
 
-File: `parseflow_main/backend/src/middleware/authMiddleware.js`
+File: `careervault_main/backend/src/middleware/authMiddleware.js`
 
 Supports:
 
@@ -159,14 +159,14 @@ Supports:
 
 ### 8.2 Encrypted extracted payload storage
 
-File: `parseflow_main/backend/src/utils/encryption.js`
+File: `careervault_main/backend/src/utils/encryption.js`
 
 - AES encryption using `DATA_ENCRYPTION_KEY`
 - Encrypted payload stored in Mongo field `encryptedData`
 
 ### 8.3 File integrity hash
 
-File: `parseflow_main/backend/src/utils/hash.js`
+File: `careervault_main/backend/src/utils/hash.js`
 
 - SHA-256 hash generated for stored files
 - Hash stored in Mongo field `fileHash`
@@ -225,7 +225,7 @@ Fix:
 ```powershell
 $conn = Get-NetTCPConnection -LocalPort 5000 -State Listen -ErrorAction SilentlyContinue
 if ($conn) { Stop-Process -Id $conn.OwningProcess -Force }
-cd "parseflow_main/backend"
+cd "careervault_main/backend"
 npm start
 ```
 
@@ -268,7 +268,7 @@ Use resulting HTTPS URL in frontend env:
 ### Frontend via Vercel CLI
 
 ```powershell
-npx vercel --cwd "parseflow_main/frontend" --prod --yes
+npx vercel --cwd "careervault_main/frontend" --prod --yes
 ```
 
 If ngrok URL changes, update frontend env and redeploy.
@@ -284,7 +284,7 @@ If ngrok URL changes, update frontend env and redeploy.
 
 ## 13. Summary
 
-ParseFlow combines classification, OCR, fallback LLM analysis, structured storage, and UI workflows.
+CareerVault combines classification, OCR, fallback LLM analysis, structured storage, and UI workflows.
 
 Recent enhancements include:
 

@@ -8,7 +8,7 @@ CareerVault integrates **Cognee** to elevate the platform from a simple document
 
 1. **Upload & OCR (Node.js)**
    - A user uploads a document via the `/upload` API endpoint in the Node.js backend.
-   - The file is stored, categorized, and OCR/Vision extraction takes place as part of the core ParseFlow pipeline.
+   - The file is stored, categorized, and OCR/Vision extraction takes place as part of the core CareerVault pipeline.
 
 2. **Trigger Memory Sync (Node.js -> Python ML Service)**
    - Once the document is persisted (`persistAndNotify`), `triggerMemorySync` makes a non-blocking asynchronous POST request to the Python ML Service `/memory/sync`.

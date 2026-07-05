@@ -1,6 +1,6 @@
 # Getting Started
 
-This guide explains how to run and use ParseFlow locally.
+This guide explains how to run and use CareerVault locally.
 
 ## Prerequisites
 
@@ -11,8 +11,8 @@ This guide explains how to run and use ParseFlow locally.
 
 ## Local Setup
 
-1. Install backend dependencies from `parseflow_main/backend`.
-2. Install frontend dependencies from `parseflow_main/frontend`.
+1. Install backend dependencies from `careervault_main/backend`.
+2. Install frontend dependencies from `careervault_main/frontend`.
 3. Configure the backend environment file with the required secrets and service URLs.
 4. Configure the frontend environment file with the backend base URL.
 5. Start the backend service.
